@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3">
+    <h1> Car selection {% if selected_brand is defined %} for {{ selected_brand}} {% else %}{% endif %} </h1>
+
+    <form action="/get_cars_brand" method="post">
+        <div class="mb-3">
+          <label for="brandInput" class="form-label">Brand</label>
+          <input type="text" class="form-control" id="brandInput" name="brand" aria-describedby="emailHelp">
+          <div id="brandHelp" class="form-text">Insert a car brand</div>
+        </div>
+    
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    </div>
+
+    <div class="col-md-9">
+    {% if cars_list is defined %}
+    <table class="table table-striped" id="carsTable">
+        <thead>
+            <th>Kenteken</th>
+            <th>Merk</th>
+            <th>Model</th>
+            <th>Prijs</th>
+            <th>Kleur</th>
+        </thead>
+        <tbody>
+    
+            {% for car in cars_list %}
+            <tr>
+                <td> <button type="button" class="btn btn-warning">{{ car['kenteken'] }}</button> </td>
+                <td> {{ car['merk'] }} </td>
+                <td> {{ car['handelsbenaming'] }} </td>
+                <td> {{ car['catalogusprijs'] }} </td>
+                <td> {{ car['eerste_kleur'] }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+  </div>
+</div>
+
+
+<script>
+    let table = new DataTable('#carsTable');
+</script>
+
+{% else %}
+{% endif %}
+
+
+{% endblock %}
